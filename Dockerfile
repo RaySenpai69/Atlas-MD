@@ -1,12 +1,12 @@
-FROM node:lts-buster
+FROM node:lts-bullseye
 
 RUN apt-get update && \
   apt-get install -y \
   ffmpeg \
   imagemagick \
+  bash \
   webp && \
   apt-get upgrade -y && \
-  npm i pm2 -g && \
   rm -rf /var/lib/apt/lists/*
 
 COPY package.json .
@@ -15,4 +15,4 @@ RUN yarn install
 
 COPY . .
 
-CMD ["pm2-runtime", "."]
+CMD ["sudo", "bash","loop.sh"]
