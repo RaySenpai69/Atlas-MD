@@ -1,18 +1,20 @@
-FROM node:lts-bullseye
+FROM debian:bookworm-slim
 
 RUN apt-get update && \
   apt-get install -y \
   ffmpeg \
   imagemagick \
   bash \
+  curl \
+  sudo \
   webp && \
-  apt-get upgrade -y && \
-  rm -rf /var/lib/apt/lists/*
+  apt-get upgrade -y 
 
-COPY package.json .
-
-RUN yarn install
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
+    sudo apt install -y nodejs
 
 COPY . .
 
-CMD ["sudo", "bash","loop.sh"]
+RUN npm install
+
+CMD ["sudo","bash","loop.sh"]
